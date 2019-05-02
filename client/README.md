@@ -1,12 +1,17 @@
 # client
 
 ## Project setup
-# First we install the dependencies needed for the app to run with the following command
+# First you need to install the dependencies needed for the app to run with the following command
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+# Next step is to start the backend with 
+```
+npm start
+```
+
+### Next comand starting frontend server and Compiles and hot-reloads for development
 ```
 npm run serve
 ```
