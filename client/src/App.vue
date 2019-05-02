@@ -43,7 +43,7 @@ export default {
 }
 
 #navbar {
-  padding: 1% 20%;
+  padding: 1% 19%;
   background-color: #F5F6FA !important;
 
 }
@@ -83,10 +83,46 @@ export default {
 #fileInput {
     display: none !important;
   }
+
 #file-input-label {
   margin-bottom: 0;
 }
+
 #file-input-label > figure {
   margin: 0 !important;
 }
+
+.dropDown button {
+    background: transparent !important;
+    border: none !important;
+    color: #656568 !important;
+}
+
+@media only screen and (max-width : 768px) { 
+    .crateTask {
+      right: 0.8em !important;
+      top: 0.3em !important;
+    }
+    .toDo {
+      margin-right: 0% !important;
+      margin-left: 0% !important;
+    }
+
+    .done {
+      margin-right: 0% !important;
+      margin-left: 0% !important;
+      margin-top: 8% !important; 
+    }
+
+    .lists {
+      padding: 4% !important;
+    }
+
+    .dropDown {
+        right: 0.4em !important;
+        top: 0.3em !important;
+
+    }
+ }
+
 </style>

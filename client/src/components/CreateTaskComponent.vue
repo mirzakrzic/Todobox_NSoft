@@ -50,7 +50,6 @@ export default {
     top: 4.4em;
     right: 1em;
     width: 20%;
-    
 }
 
 .cancel {
@@ -63,8 +62,6 @@ export default {
 .cardAdd {
     padding: 0.8em;
 }
-
-
 
 .crateTask {
   border: none !important;

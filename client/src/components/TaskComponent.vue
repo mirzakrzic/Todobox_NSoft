@@ -107,10 +107,9 @@ export default {
   }
 
   .dropDown {
-    color: #656568 !important;
+    
     position: absolute;
     right: 0.7em;
-    background: none !important;
   }
 
   .save {
@@ -122,9 +121,11 @@ export default {
   .hidden {
     display: none;
   }
+
   .task-img-wrapper {
     text-align: center;
   }
+
   .task-img {
     max-width: 100%;
     max-height: 200px;

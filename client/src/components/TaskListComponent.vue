@@ -1,5 +1,6 @@
 <template>
   <div class="content container col-md-12">
+      <div class="raw">
         <div class="toDo lists col-md-6">
             <b>To-do list</b>
             <CreateTaskComponent v-on:createTask="addTask" />
@@ -34,6 +35,7 @@
                     @taskNotComplete="tasknotcomplete"
                 />
             </div>
+        </div>
         </div>
   </div>
 </template>
@@ -141,25 +143,28 @@ export default {
 </script>
 
 <style scoped>
+
 .container {
     margin-top: 3%;
     padding: 0;
 }
+
 .lists {
     padding: 2%;
-    box-sizing: border-box;
-    float: left;
+    display: inline-block;
     background-color: #F5F6FA;
     border-radius: 2%;
-    width: 48% !important; 
-    font-size: 1.2rem;
+    font-size: 1.2rem; 
+    vertical-align: top !important; 
 }
 
 .toDo {
     margin-right: 2%;
+    margin-left: -2%;
 }
 
 .done {
+    margin-right: -2%;
     margin-left: 2%;
 }
 
