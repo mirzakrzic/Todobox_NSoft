@@ -1,32 +1,33 @@
-'use strict';
 let Joi = require('joi');
 
 let tasks = [
-    { id: 1, name: 'Task1' },
-    { id: 2, name: 'Task2' },
-    { id: 3, name: 'Task3' },
+    { id: 1, name: 'Task1', done: false, image: null },
+    { id: 2, name: 'Task2', done: false, image: null },
+    { id: 3, name: 'Task3', done: false, image: null },
 ];
 
 exports.listAllTasks = function(req, res) {
-    res.json(tasks);
+    res.send(tasks);
 };
 
 exports.getSpecificTask = function(req, res) {
     let tasks_ = tasks.find(c => c.id === parseInt(req.params.id));
     if (!tasks_) return res.status(404).send('The task with given ID cannot be found!')
-    res.json(tasks_);
+    res.send(tasks_);
 };
 
 exports.createTask = function(req, res) {
     let {error} = taskValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (!error) return res.status(400).send(error.details[0].message);
    
     let task_ = {
         id: tasks.length + 1,
-        name: req.body.name 
+        name: req.body.name,
+        done: req.body.done,
+        image: req.body.image
     };
     tasks.push(task_);
-    res.json(task_);
+    res.send(task_);
 };
 
 exports.updateTask = function(req, res) {
@@ -34,11 +35,12 @@ exports.updateTask = function(req, res) {
     if (!tasks_) return res.status(404).send('The task with given ID cannot be found!')
 
     let {error} = taskValidation(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (!error) return res.status(400).send(error.details[0].message);
   
     tasks_.name = req.body.name;
+    tasks_.done = req.body.done;
 
-    res.json(tasks_);
+    res.send(tasks_);
 };
 
 exports.deleteTask = function(req, res) {
@@ -48,7 +50,17 @@ exports.deleteTask = function(req, res) {
     let taskIndex = tasks.indexOf(tasks_); 
     tasks.splice(taskIndex, 1);
 
-    res.json(tasks_); 
+    res.send(tasks_); 
+};
+
+exports.deleteAllTasks = function(req, res) {
+    for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].done) {
+            tasks.splice(i, 1);
+            i--;
+        }
+    }
+    res.send(tasks); 
 };
 
 function taskValidation(task_) {

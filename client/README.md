@@ -1,6 +1,7 @@
 # client
 
 ## Project setup
+# First we install the dependencies needed for the app to run with the following command
 ```
 npm install
 ```

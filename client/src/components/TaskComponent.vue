@@ -1,58 +1,131 @@
 <template>
-  <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener">vue-cli documentation</a>.
-    </p>
-    <h3>Installed CLI Plugins</h3>
-    <ul>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-babel" target="_blank" rel="noopener">babel</a></li>
-      <li><a href="https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-eslint" target="_blank" rel="noopener">eslint</a></li>
-    </ul>
-    <h3>Essential Links</h3>
-    <ul>
-      <li><a href="https://vuejs.org" target="_blank" rel="noopener">Core Docs</a></li>
-      <li><a href="https://forum.vuejs.org" target="_blank" rel="noopener">Forum</a></li>
-      <li><a href="https://chat.vuejs.org" target="_blank" rel="noopener">Community Chat</a></li>
-      <li><a href="https://twitter.com/vuejs" target="_blank" rel="noopener">Twitter</a></li>
-      <li><a href="https://news.vuejs.org" target="_blank" rel="noopener">News</a></li>
-    </ul>
-    <h3>Ecosystem</h3>
-    <ul>
-      <li><a href="https://router.vuejs.org" target="_blank" rel="noopener">vue-router</a></li>
-      <li><a href="https://vuex.vuejs.org" target="_blank" rel="noopener">vuex</a></li>
-      <li><a href="https://github.com/vuejs/vue-devtools#vue-devtools" target="_blank" rel="noopener">vue-devtools</a></li>
-      <li><a href="https://vue-loader.vuejs.org" target="_blank" rel="noopener">vue-loader</a></li>
-      <li><a href="https://github.com/vuejs/awesome-vue" target="_blank" rel="noopener">awesome-vue</a></li>
-    </ul>
-  </div>
+  <div class="ui centered" >
+    <div class="task card ">
+      <div v-if="editTask">
+        <b-form-input v-model="task.name" v-on:keyup.13="updateTask(task)" class="editName" ></b-form-input>
+        <b-button v-on:click="updatetask(task)" class="save" >Save</b-button>
+      </div>
+      <div v-else>
+        <div class="task-img-wrapper" v-if="this.hasImage">
+          <img v-bind:src="this.image.dataUrl" class="task-img" />
+        </div>
+          <img src="../assets/checkbox.png" alt="Todobox Checklist" v-show="!editTask && !this.task.done" v-on:click="completetask(task, index)">
+        
+          <img src="../assets/checkbox active.png" alt="Todobox Checklist" v-show="!editTask && this.task.done" v-on:click="tasknotcomplete(task, index)">
+                
+        <span class="taskName">{{this.task.name}}</span>
+        <b-dropdown class="dropDown" variant="light" size="md" right no-caret>
+          <template slot="button-content"><font-awesome-icon icon="ellipsis-v" /></template>
+          <b-dropdown-item v-on:click="toggleTaskEdit"><font-awesome-icon icon="edit" /> Update</b-dropdown-item>
+          <image-uploader
+            :preview="false"
+            :className="['fileinput', { 'fileinput--loaded': hasImage }]"
+            capture="environment"
+            :debug="1"
+            doNotResize="gif"
+            :autoRotate="true"
+            outputFormat="verbose"
+            @input="setImage"
+          >
+            <label for="fileInput" slot="upload-label" id="file-input-label">
+              <figure>
+                <div class="dropdown-item"><font-awesome-icon icon="image" /> Image</div>
+                </figure>
+             </label>
+          </image-uploader>
+
+          <b-dropdown-item v-on:click="deletetask(task.id, index)"><font-awesome-icon icon="trash" /> Delete</b-dropdown-item>
+        </b-dropdown>
+      </div>
+    </div>
+  </div>    
 </template>
 
 <script>
+
 export default {
-  name: 'HelloWorld',
-  props: {
-    msg: String
+  name: 'TaskComponent',
+  props: ["task", "index"],
+  data() {
+    return {
+      editTask: false,
+      hasImage: false,
+      image: null
+    }
+  },
+  methods: {
+    setImage: function(output) {
+      this.hasImage = true;
+      this.image = output;
+      this.task.image = this.image;
+    },
+    openImgPopup(e) {
+      e.preventDefault();
+    },
+    deletetask(id, i) {
+      this.$emit("deleteTask", id, i);
+    },
+    toggleTaskEdit() {
+      this.editTask = !this.editTask
+    },
+    updatetask(task) {
+      this.$emit("updateTask", task);
+      this.toggleTaskEdit();
+    },
+    completetask(task, i){
+      this.$emit("completeTask", task, i);
+    },
+    tasknotcomplete(task, i){
+      this.$emit("taskNotComplete", task, i);
+    }
   }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+  .task {
+    display: block;
+    background-color: #FFFFFF;
+    margin: 16px 8px;
+    padding: 0.6rem;
+    border: none;
+  }
+
+  .task img {
+    margin: 2% 4%;
+  }
+  .text {
+    font-size: 20px;
+    color: black;
+  }
+
+  .editName {
+    width: 80%;
+    color: black;
+  }
+
+  .dropDown {
+    color: #656568 !important;
+    position: absolute;
+    right: 0.7em;
+    background: none !important;
+  }
+
+  .save {
+    position: absolute;
+    top: 0.6em;
+    right: 0.7em;
+  }
+
+  .hidden {
+    display: none;
+  }
+  .task-img-wrapper {
+    text-align: center;
+  }
+  .task-img {
+    max-width: 100%;
+    max-height: 200px;
+  }
 </style>
