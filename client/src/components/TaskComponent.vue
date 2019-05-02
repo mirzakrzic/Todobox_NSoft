@@ -16,7 +16,7 @@
         <span class="taskName">{{this.task.name}}</span>
         <b-dropdown class="dropDown" variant="light" size="md" right no-caret>
           <template slot="button-content"><font-awesome-icon icon="ellipsis-v" /></template>
-          <b-dropdown-item v-on:click="toggleTaskEdit"><font-awesome-icon icon="edit" /> Update</b-dropdown-item>
+          <b-dropdown-item v-on:click="toggleTaskEdit" v-if="!this.task.done"><font-awesome-icon icon="edit"  /> Update</b-dropdown-item>
           <image-uploader
             :preview="false"
             :className="['fileinput', { 'fileinput--loaded': hasImage }]"
@@ -26,6 +26,7 @@
             :autoRotate="true"
             outputFormat="verbose"
             @input="setImage"
+            v-if="!this.task.done"
           >
             <label for="fileInput" slot="upload-label" id="file-input-label">
               <figure>
